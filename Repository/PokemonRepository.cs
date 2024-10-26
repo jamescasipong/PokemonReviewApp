@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using PokemonReviewApp.Data;
 using PokemonReviewApp.Interfaces;
 using PokemonReviewApp.Models;
+using System.Linq;
+using System.Collections.Generic;
+
 
 namespace PokemonReviewApp.Repository
 {
@@ -15,7 +18,7 @@ namespace PokemonReviewApp.Repository
 
         public ICollection<Pokemon> GetAll()
         {
-            return _context.Pokemon.OrderBy(p => p.Id).ToList();
+            return _context.Pokemons.OrderBy(p => p.Id).ToList();
         }
 
         public Pokemon GetPokemonById(int id)
@@ -25,7 +28,7 @@ namespace PokemonReviewApp.Repository
                 throw new ArgumentException("ID must be greater than zero.", nameof(id));
             }
 
-            var pokemon = _context.Pokemon.Where(p => p.Id == id).FirstOrDefault();
+            var pokemon = _context.Pokemons.Where(p => p.Id == id).FirstOrDefault();
 
 
             return pokemon;
@@ -35,7 +38,7 @@ namespace PokemonReviewApp.Repository
         public Pokemon GetPokemon(string name)
         {
 
-            return _context.Pokemon.Where(p => p.Name == name).FirstOrDefault();
+            return _context.Pokemons.Where(p => p.Name == name).FirstOrDefault();
         }
 
 
@@ -58,14 +61,14 @@ namespace PokemonReviewApp.Repository
 
         public bool Delete(int id)
         {
-            var pokemon = _context.Pokemon.Find(id);
+            var pokemon = _context.Pokemons.Find(id);
             
             if (pokemon == null)
             {
                 return false;
             }
 
-            _context.Pokemon.Remove(pokemon);
+            _context.Pokemons.Remove(pokemon);
             _context.SaveChanges();
 
             return true;
@@ -79,7 +82,7 @@ namespace PokemonReviewApp.Repository
                 throw new ArgumentNullException(nameof(pokemon));
             }
 
-            _context.Pokemon.Add(pokemon);
+            _context.Pokemons.Add(pokemon);
             _context.SaveChanges();
 
             return pokemon;
@@ -89,12 +92,12 @@ namespace PokemonReviewApp.Repository
 
         public bool PokemonExists(int id)
         {
-            return _context.Pokemon.Any(p => p.Id == id);
+            return _context.Pokemons.Any(p => p.Id == id);
         }
 
         public bool PokemonExists(string name)
         {
-            return _context.Pokemon.Any(p => p.Name == name);
+            return _context.Pokemons.Any(p => p.Name == name);
         }
     }
 }

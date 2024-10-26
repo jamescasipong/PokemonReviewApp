@@ -1,35 +1,53 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PokemonReviewApp.Dto;
 using PokemonReviewApp.Interfaces;
 using PokemonReviewApp.Models;
+using System.Diagnostics.CodeAnalysis;
+using AutoMapper;
+
 
 namespace PokemonReviewApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PokemonController : ControllerBase
+    public class PokemonController : Controller
     {
+
         private readonly IPokemonRepository _repository;
-        public PokemonController(IPokemonRepository repository) {
+        private readonly IMapper _mapper;
+
+
+
+        public PokemonController(IPokemonRepository repository, IMapper mapper = null)
+        {
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public virtual IActionResult GetAll()
         {
-            var pokemons = _repository.GetAll();
+        
 
-            return Ok(pokemons);
+            var pokemon = _mapper.Map<ICollection<PokemonDto>>(_repository.GetAll());
+
+            return Ok(pokemon);
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetPokemonById(int id)
+
+        [HttpGet("{id}"), 
+        ProducesResponseType(typeof(Pokemon), 200), 
+        ProducesResponseType(404), 
+        ProducesResponseType(400), 
+        Tags("Pokemon")]
+        public virtual IActionResult GetPokemonById(int id)
         {
             if (!_repository.PokemonExists(id))
                 return NotFound();
 
-            
-            var pokemon = _repository.GetPokemonById(id);
+
+            var pokemon = _mapper.Map<PokemonDto>(_repository.GetPokemonById(id));
 
 
             if (!ModelState.IsValid)
@@ -82,7 +100,6 @@ namespace PokemonReviewApp.Controllers
 
             return Ok(addedPokemon);
         }
-
         
         
     }
