@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PokemonReviewApp.Models;
 
-namespace PokemonReviewApp.DependencyInjections
+namespace PokemonReviewApp.Interfaces
 {
     public interface IPokemonRepository
     {

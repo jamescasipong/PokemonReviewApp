@@ -12,13 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // Dependency Injection
-builder.Services.AddTransient<IPokemonRepository, PokemonRepository>();
-builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+HelperFunctions.AddTransientRepositories(builder.Services);
 
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddTransient<Seed>();
-builder.Services.AddTransient<PokemonController>();
+
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

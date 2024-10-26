@@ -61,7 +61,7 @@ namespace PokemonReviewApp.Controllers
             }
 
 
-            var pokemonCategories = _repository.GetPokemonCategories(id);
+            var pokemonCategories = _mapper.Map<ICollection<PokemonDto>>(_repository.GetPokemonCategories(id));
 
             return Ok(pokemonCategories);
         }
