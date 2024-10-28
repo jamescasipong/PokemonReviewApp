@@ -36,12 +36,12 @@ namespace PokemonReviewApp.Controllers
         [HttpGet("{id}")]
         public IActionResult GetCountry(int id)
         {
-
-            var country = _mapper.Map<CountryDto>(_countryRepository.GetCountry(id));
-
             if (!_countryRepository.CountryExist(id))
                 return NotFound();
 
+            var country = _mapper.Map<CountryDto>(_countryRepository.GetCountry(id));
+
+           
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -51,12 +51,12 @@ namespace PokemonReviewApp.Controllers
 
         }
 
-        [HttpGet("{id}/owners")]
-        public IActionResult GetCountriesByOnwers(int id) {
+        [HttpGet("owners/{countrId}")]
+        public IActionResult GetCountriesByOnwers(int countrId) {
 
-            var country = _mapper.Map<CountryDto>(_countryRepository.GetCountryByOwner(id));
+            var country = _mapper.Map<CountryDto>(_countryRepository.GetCountryByOwner(countrId));
 
-            if (!_countryRepository.CountryExist(id))
+            if (!_countryRepository.CountryExist(countrId))
                 return NotFound();
 
             if (!ModelState.IsValid)
@@ -65,6 +65,7 @@ namespace PokemonReviewApp.Controllers
             return Ok(country);
         }
 
+        [HttpGet("{id}/ownersFromCountry")]
         public IActionResult GetOwnersFromCountry(int id)
         {
             var ownersByCountry = _countryRepository.GetOwnersFromCountry(id);

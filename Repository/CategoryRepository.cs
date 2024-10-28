@@ -15,6 +15,11 @@ namespace PokemonReviewApp.Repository
             return _dataContext.Categories.Any(c => c.Id == id);
         }
 
+        public bool CreateCategory(Category category)
+        {
+            throw new NotImplementedException();
+        }
+
         public ICollection<Category> GetCategories()
         {
             return _dataContext.Categories.ToList();

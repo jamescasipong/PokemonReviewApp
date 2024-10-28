@@ -16,7 +16,18 @@ HelperFunctions.AddTransientRepositories(builder.Services);
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddCors(option =>
+{
+    option.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });
 
+    option.AddPolicy("Pokemon", policy =>
+    {
+        policy.WithOrigins("https://www.w3schools.com/").AllowAnyMethod().AllowAnyHeader();
+    });
+});
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -48,6 +59,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("Pokemon");
 
 app.UseHttpsRedirection();
 

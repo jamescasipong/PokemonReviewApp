@@ -96,7 +96,7 @@ namespace PokemonReviewApp.Controllers
         [HttpPost]
         public IActionResult Add(Pokemon pokemon)
         {
-            var addedPokemon = _repository.Add(pokemon);
+            var addedPokemon = _repository.CreatePokemon(pokemon);
 
             return Ok(addedPokemon);
         }
